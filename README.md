@@ -1,6 +1,6 @@
 <b>Estudos de Jasper do felipe</b>
 
-# A aplicação renderiza um arquivo pdf e preenche os campos necessários, o arquivo foi criado pelo jasper estúdio próximo da imagem abaixo:
+# A aplicação renderiza um arquivo pdf e preenche os campos necessários, o arquivo foi criado pelo jasper estúdio, próximo ao visto na imagem abaixo:
 
 <img src="img\sampleFile.PNG">
 
