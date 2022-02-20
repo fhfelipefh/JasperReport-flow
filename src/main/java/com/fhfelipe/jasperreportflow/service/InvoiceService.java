@@ -1,6 +1,8 @@
 package com.fhfelipe.jasperreportflow.service;
 
 import com.fhfelipe.jasperreportflow.model.ReportUser;
+import com.fhfelipe.jasperreportflow.model.UserPost;
+import com.fhfelipe.jasperreportflow.repository.PostsRepository;
 import com.fhfelipe.jasperreportflow.repository.ReportRepository;
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,10 +14,13 @@ import org.springframework.stereotype.Service;
 public class InvoiceService {
 
   private final ReportRepository reportRepository;
+  private final PostsRepository postsRepository;
 
-  public InvoiceService(ReportRepository reportRepository) {
+  public InvoiceService(ReportRepository reportRepository, PostsRepository postsRepository) {
     this.reportRepository = reportRepository;
+    this.postsRepository = postsRepository;
   }
+
 
   private String getRandomUsersNames() {
     int i = 6;
@@ -68,19 +73,22 @@ public class InvoiceService {
 
   private List<ReportUser> generateUserList() {
     return Arrays.asList(
-        new ReportUser(ramdomInt(), getRandomUsersNames(), getRandomUsersNames(), getRandomNumber(), getRandomEmail(), "Felipe"),
-        new ReportUser(ramdomInt(), getRandomUsersNames(), getRandomUsersNames(), getRandomNumber(), getRandomEmail(), "Felipe"),
-        new ReportUser(ramdomInt(), getRandomUsersNames(), getRandomUsersNames(), getRandomNumber(), getRandomEmail(), "Felipe"));
+        new ReportUser(ramdomInt(), getRandomUsersNames(), getRandomUsersNames(), getRandomNumber(),
+                       getRandomEmail(), "Felipe"),
+        new ReportUser(ramdomInt(), getRandomUsersNames(), getRandomUsersNames(), getRandomNumber(),
+                       getRandomEmail(), "Felipe"),
+        new ReportUser(ramdomInt(), getRandomUsersNames(), getRandomUsersNames(), getRandomNumber(),
+                       getRandomEmail(), "Felipe"));
   }
 
   public Collection<?> createInDBAndReturnReportUsers() {
     List<ReportUser> listToSave = generateUserList();
 
-    if(listToSave.isEmpty()){
+    if (listToSave.isEmpty()) {
       return Collections.emptyList();
     }
 
-    for ( ReportUser reportUser : listToSave) {
+    for (ReportUser reportUser : listToSave) {
       reportRepository.save(reportUser);
       System.out.println("Saved: " + reportUser);
     }
@@ -94,6 +102,21 @@ public class InvoiceService {
 
   public void deleteAll() {
     reportRepository.deleteAll();
+  }
+
+  public Collection<?> createPosts() {
+    if (postsRepository.findAll().size() < 30) {
+      List<ReportUser> listUser = reportRepository.findAll();
+      UserPost userPost = new UserPost();
+      for (ReportUser reportUser : listUser) {
+        userPost.setUserId(reportUser.getUserId());
+        userPost.setId(ramdomInt());
+        userPost.setTitle(getRandomUsersNames() + " teste nº " + ramdomInt());
+        userPost.setBody(getRandomUsersNames() + getRandomUsersNames() + ", bem, só queria dizer isso mesmo.");
+        postsRepository.save(userPost);
+      }
+    }
+    return postsRepository.findAll();
   }
 
 }

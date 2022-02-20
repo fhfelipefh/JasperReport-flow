@@ -8,6 +8,8 @@ Os dados são obtidos de uma geração aleatória em um banco em memória H2!
 
 Para gerar basta buscar o endereço: localhost:8080/pdf
 
+Para ver posts de usuários use localhost:8080/posts
+
 Para apagar o banco de dados: localhost:8080/delete
 
 Exemplo de resultado de uma requisição:
