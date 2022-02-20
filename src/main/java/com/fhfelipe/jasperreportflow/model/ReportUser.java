@@ -26,7 +26,7 @@ public class ReportUser {
   private String firstName;
 
   @NotBlank
-  private String LastName;
+  private String lastName;
 
   @NotBlank
   private String phoneNumber;

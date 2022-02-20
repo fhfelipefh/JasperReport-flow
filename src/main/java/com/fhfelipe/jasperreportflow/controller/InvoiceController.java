@@ -24,6 +24,7 @@ public class InvoiceController {
 
   private final InvoiceService invoiceService;
   private static final String JRXML_FILE = "src/main/resources/jasper-input/invoice.jrxml";
+  private static final String JRXML_FILE2 = "src/main/resources/jasper-input/onlyname.jrxml";
 
   @Autowired
   private InvoiceController(InvoiceService invoiceService) {
@@ -48,6 +49,26 @@ public class InvoiceController {
     byte[] pdf = JasperExportManager.exportReportToPdf(report);
     HttpHeaders headers = new HttpHeaders();
     headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=invoice.pdf");
+    return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(pdf);
+  }
+
+  @GetMapping("onlyusernames")
+  public ResponseEntity<byte []> getPdfOnlyUserNames() throws FileNotFoundException, JRException {
+
+    JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(invoiceService.findAll());
+    JasperReport compileReport = JasperCompileManager.compileReport(new FileInputStream(JRXML_FILE2));
+
+    //guarda parâmetros definidos como: <nome do parâmetro,informação>
+    HashMap<String, Object> parameters = new HashMap<>();
+
+    JasperPrint report = JasperFillManager.fillReport(compileReport, parameters, beanCollectionDataSource);
+
+    //trecho para gerar arquivo na máquina
+    //JasperExportManager.exportReportToPdfFile(report, "invoice.pdf");
+
+    byte[] pdf = JasperExportManager.exportReportToPdf(report);
+    HttpHeaders headers = new HttpHeaders();
+    headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=invoice2.pdf");
     return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(pdf);
   }
 

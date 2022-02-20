@@ -88,6 +88,10 @@ public class InvoiceService {
     return reportRepository.findAll();
   }
 
+  public Collection<?> findAll() {
+    return reportRepository.findAll();
+  }
+
   public void deleteAll() {
     reportRepository.deleteAll();
   }
