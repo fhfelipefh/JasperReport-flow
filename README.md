@@ -12,6 +12,8 @@ Para ver posts de usuários use localhost:8080/posts
 
 Para apagar o banco de dados: localhost:8080/delete
 
+Para gerar um pdf com somente um nome e sobrenome por página: localhost:8080/onlyusernames
+
 Exemplo de resultado de uma requisição:
 
 <img src="img\exe.PNG">
